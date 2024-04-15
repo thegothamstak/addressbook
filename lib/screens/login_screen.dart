@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'options_menu.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -50,34 +51,35 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    String username = _usernameController.text;
-                    String password = _passwordController.text;
+                    // String username = _usernameController.text;
+                    // String password = _passwordController.text;
 
-                    if (username == 'stak' && password == 'password') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OptionsMenuFrame()),
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Login Failed'),
-                            content: Text('Invalid username or password'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
+                    // if (username == 'stak' && password == 'password') {
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => OptionsMenuFrame()),
+                    //   );
+                    // } else {
+                    //   showDialog(
+                    //     context: context,
+                    //     builder: (BuildContext context) {
+                    //       return AlertDialog(
+                    //         title: Text('Login Failed'),
+                    //         content: Text('Invalid username or password'),
+                    //         actions: <Widget>[
+                    //           TextButton(
+                    //             onPressed: () {
+                    //               Navigator.of(context).pop();
+                    //             },
+                    //             child: Text('OK'),
+                    //           ),
+                    //         ],
+                    //       );
+                    //     },
+                    //   );
+                    // }
+                    _login(context);
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
@@ -104,5 +106,44 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _login(BuildContext context) async {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+    // Make API call
+    var url = Uri.parse('http://192.168.56.1/registerAddressAPI/api.php/login');
+    var response = await http.post(url, body: {
+      'username': username,
+      'password': password,
+    });
+
+    if (response.statusCode == 200) {
+      // Successful login
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => OptionsMenuFrame()),
+      );
+    } else {
+      // Failed login
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Login Failed'),
+            content: Text('Invalid username or password'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }
