@@ -51,34 +51,6 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    // String username = _usernameController.text;
-                    // String password = _passwordController.text;
-
-                    // if (username == 'stak' && password == 'password') {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => OptionsMenuFrame()),
-                    //   );
-                    // } else {
-                    //   showDialog(
-                    //     context: context,
-                    //     builder: (BuildContext context) {
-                    //       return AlertDialog(
-                    //         title: Text('Login Failed'),
-                    //         content: Text('Invalid username or password'),
-                    //         actions: <Widget>[
-                    //           TextButton(
-                    //             onPressed: () {
-                    //               Navigator.of(context).pop();
-                    //             },
-                    //             child: Text('OK'),
-                    //           ),
-                    //         ],
-                    //       );
-                    //     },
-                    //   );
-                    // }
                     _login(context);
                   },
                   style: ButtonStyle(

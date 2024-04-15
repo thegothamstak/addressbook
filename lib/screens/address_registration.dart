@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'options_menu.dart';
 
 class AddressRegistrationFrame extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -195,11 +196,6 @@ class AddressRegistrationFrame extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   SnackBar(
-                        //     content: Text('Registration successful'),
-                        //   ),
-                        // );
                         _registerAddress(context);
                       }
                     },
@@ -268,6 +264,12 @@ class AddressRegistrationFrame extends StatelessWidget {
           content: Text('Registration successful'),
         ),
       );
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => OptionsMenuFrame()),
+        );
+      });
     } else {
       // Failed registration
       showDialog(
